@@ -81,9 +81,8 @@ angular.module('booletin',[
         } else {
           def.reject();
         }
-
         return def.promise;
       };
-    };
+    }
   };
 });
