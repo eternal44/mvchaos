@@ -74,19 +74,23 @@ angular.module('booletin',[
     restrict: "A",
     require: "ngModel",
     link: function(scope, elm, attrs, ctrl) {
-      console.log('ctrl: ', ctrl);
       ctrl.$asyncValidators.validZip = function(modelValue, viewValue) {
-        console.log(viewValue);
+        console.log(typeof viewValue);
         var def = $q.defer();
-        var valid = Events.queryLocation(viewValue);// check method for usage.  What does this return if no zip is found?
-        if(response.statusCode !== 400){
-          console.log('successful api call');
-          def.resolve();
-        } else {
-          console.log('failing');
-          def.reject();
-        }
-        return def.promise;
+        Events.queryLocation(parseInt(viewValue))// check method for usage.  What does this return if no zip is found?
+        .then(function(response){
+          console.log('response: ', response.data);
+        });
+
+        // if(response.statusCode !== 400){
+        //   console.log('successful api call');
+        //   def.resolve();
+        // } else {
+        //   console.log('failing');
+        //   def.reject();
+        // }
+        // return def.promise;
+
       };
     }
   };
