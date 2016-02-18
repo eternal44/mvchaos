@@ -69,20 +69,25 @@ angular.module('booletin',[
   };
 })
 
-.directive('validZip', function($q, Events) {// can I inject a service here?
+.directive('validZip', ['$q', 'Events', function($q, Events) {// can I inject a service here?
   return {
     restrict: "A",
+    require: "ngModel",
     link: function(scope, elm, attrs, ctrl) {
+      console.log('ctrl: ', ctrl);
       ctrl.$asyncValidators.validZip = function(modelValue, viewValue) {
+        console.log(viewValue);
         var def = $q.defer();
         var valid = Events.queryLocation(viewValue);// check method for usage.  What does this return if no zip is found?
         if(response.statusCode !== 400){
+          console.log('successful api call');
           def.resolve();
         } else {
+          console.log('failing');
           def.reject();
         }
         return def.promise;
       };
     }
   };
-});
+}]);
